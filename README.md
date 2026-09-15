@@ -1,5 +1,5 @@
 # CinemaStore Enterprise - Sistema de Gestión Cinematográfica (Parcial 1)
-
+**Estudiantes:** Jerónimo Mesa Y Juan Miguel Duarte
 **Institución:** Corporación Universitaria Lasallista  
 **Facultad:** Ingeniería Informática  
 **Asignatura:** Desarrollo Web  
