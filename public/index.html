@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CinemaStore Enterprise | Sistema de Gestión Cinematográfica</title>
+  <meta name="description" content="Plataforma empresarial para la gestión, comercialización y filtrado de catálogo cinematográfico con control de acceso por roles" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- CONTENEDOR DE NOTIFICACIONES TOAST (ENTERPRISE) -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- ======================================================== -->
+  <!-- PANTALLA 1: PORTAL DE ACCESO Y BIENVENIDA (AUTH)        -->
+  <!-- ======================================================== -->
+  <div id="screen-auth" class="screen-view active">
+    <div class="auth-wrapper">
+      <div class="auth-card">
+        <!-- Encabezado Corporativo -->
+        <div class="auth-header">
+          <div class="brand-badge">
+            <span class="brand-icon">🎬</span>
+          </div>
+          <h1>CinemaStore</h1>
+          <p class="auth-subtitle">Plataforma Corporativa de Distribución Cinematográfica</p>
+        </div>
+
+        <!-- Formulario de Inicio de Sesión de Usuario -->
+        <div id="auth-box-login" class="auth-box active">
+          <div class="form-title-row">
+            <h2>Iniciar Sesión</h2>
+            <span class="hint-tag">Portal de Usuario</span>
+          </div>
+
+          <form id="form-login" class="form-vertical">
+            <div class="form-group">
+              <label for="login-username">Usuario</label>
+              <div class="input-with-icon">
+                <span class="field-icon">👤</span>
+                <input type="text" id="login-username" class="input-field" placeholder="Nombre de usuario" required autocomplete="username" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="login-password">Contraseña</label>
+              <div class="input-with-icon">
+                <span class="field-icon">🔒</span>
+                <input type="password" id="login-password" class="input-field" placeholder="Contraseña de acceso" required autocomplete="current-password" />
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="btn-submit-login">
+              Acceder al Sistema
+            </button>
+          </form>
+
+          <div class="auth-quick-access">
+            <span class="divider-text">o acceso directo de demostración</span>
+            <button type="button" id="btn-quick-user" class="btn btn-outline btn-sm btn-block">
+              👤 Iniciar como Juan (Usuario Básico)
+            </button>
+          </div>
+
+          <div class="auth-footer-toggle">
+            <p>¿No tiene credenciales de acceso? <button type="button" id="btn-goto-register" class="link-btn">Crear una cuenta</button></p>
+          </div>
+        </div>
+
+        <!-- Formulario de Registro de Usuario -->
+        <div id="auth-box-register" class="auth-box">
+          <div class="form-title-row">
+            <h2>Registro de Nuevo Usuario</h2>
+            <span class="hint-tag">Alta de Cuenta</span>
+          </div>
+
+          <form id="form-register" class="form-vertical">
+            <div class="form-group">
+              <label for="reg-username">Nombre de usuario</label>
+              <div class="input-with-icon">
+                <span class="field-icon">👤</span>
+                <input type="text" id="reg-username" class="input-field" placeholder="Nombre de usuario único" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="reg-password">Contraseña (Cifrado seguro Bcrypt)</label>
+              <div class="input-with-icon">
+                <span class="field-icon">🔑</span>
+                <input type="password" id="reg-password" class="input-field" placeholder="Mínimo 4 caracteres" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="reg-role">Perfil / Rol requerido</label>
+              <select id="reg-role" class="input-field select-field" required>
+                <option value="usuario básico" selected>Usuario Básico (Consulta y Filtros)</option>
+                <option value="Administrador">Administrador (Gestión y Registro)</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-accent btn-lg btn-block" id="btn-submit-register">
+              Completar Registro
+            </button>
+          </form>
+
+          <div class="auth-footer-toggle">
+            <p>¿Ya posee una cuenta registrada? <button type="button" id="btn-goto-login" class="link-btn">Regresar al inicio de sesión</button></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTÓN INFERIOR DERECHO: ACCESO ADMINISTRATIVO -->
+    <div class="admin-bottom-right-trigger">
+      <button type="button" id="btn-open-admin-portal" class="btn-admin-floating" title="Acceso exclusivo para Administradores">
+        <span class="admin-dot"></span>
+        <span class="admin-label">Admin</span>
+        <span class="admin-key">🔐</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL DE ACCESO ADMINISTRADOR -->
+  <div id="modal-admin" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-icon">🛡️</span>
+          <div>
+            <h3>Portal de Administración</h3>
+            <p class="modal-sub">Autenticación con privilegios de gestión de catálogo</p>
+          </div>
+        </div>
+        <button type="button" id="btn-close-admin-modal" class="btn-close-modal" aria-label="Cerrar">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="form-admin-login" class="form-vertical">
+          <div class="form-group">
+            <label for="admin-login-username">Usuario Administrador</label>
+            <input type="text" id="admin-login-username" class="input-field" value="admin" required />
+          </div>
+
+          <div class="form-group">
+            <label for="admin-login-password">Contraseña Maestra</label>
+            <input type="password" id="admin-login-password" class="input-field" value="admin123" required />
+          </div>
+
+          <button type="submit" class="btn btn-admin btn-lg btn-block" id="btn-submit-admin-login">
+            🔐 Ingresar al Panel de Administrador
+          </button>
+        </form>
+
+        <div class="admin-quick-tip">
+          <span>💡 Credenciales administrativas predeterminadas: <strong>admin</strong> / <strong>admin123</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- PANTALLA 2: APLICACIÓN PRINCIPAL (POST-LOGIN)           -->
+  <!-- ======================================================== -->
+  <div id="screen-app" class="screen-view">
+    <!-- Barra Superior Corporativa -->
+    <header class="app-navbar">
+      <div class="navbar-left">
+        <div class="nav-brand">
+          <span class="brand-icon-sm">🎬</span>
+          <span class="brand-name">CinemaStore <span class="brand-badge-pro">PRO</span></span>
+        </div>
+
+        <!-- Módulos de la Plataforma -->
+        <nav class="nav-screens">
+          <button type="button" class="nav-tab-btn active" data-target-view="view-catalog" id="nav-btn-catalog">
+            🎞️ Catálogo Comercial
+          </button>
+          <button type="button" class="nav-tab-btn" data-target-view="view-filter" id="nav-btn-filter">
+            🔍 Búsqueda Avanzada
+          </button>
+          <button type="button" class="nav-tab-btn" data-target-view="view-create" id="nav-btn-create">
+            ➕ Registrar Película
+          </button>
+        </nav>
+      </div>
+
+      <div class="navbar-right">
+        <!-- Indicador de Sesión -->
+        <div class="user-profile-badge" id="app-user-badge">
+          <span class="user-avatar">👤</span>
+          <span id="app-username" class="user-name">Usuario</span>
+          <span id="app-user-role" class="user-role-tag">Rol</span>
+        </div>
+
+        <!-- Inspector Técnico HTTP -->
+        <button type="button" id="btn-toggle-inspector" class="btn btn-outline btn-xs" title="Consola de diagnósticos y peticiones HTTP">
+          📡 Diagnósticos API
+        </button>
+
+        <!-- Cerrar Sesión -->
+        <button type="button" id="btn-logout" class="btn btn-danger btn-sm">
+          Cerrar Sesión
+        </button>
+      </div>
+    </header>
+
+    <!-- Contenedor Principal de Pantallas -->
+    <main class="app-viewport">
+
+      <!-- ========================================== -->
+      <!-- VISTA 1: CATÁLOGO COMERCIAL               -->
+      <!-- ========================================== -->
+      <section id="view-catalog" class="app-screen-panel active">
+        <div class="view-header">
+          <div>
+            <h2>Catálogo General de Películas</h2>
+            <p class="view-subtitle">Inventario cinematográfico disponible para venta y distribución comercial.</p>
+          </div>
+          <button type="button" id="btn-refresh-catalog" class="btn btn-primary">
+            🔄 Sincronizar Catálogo
+          </button>
+        </div>
+
+        <div class="catalog-summary-bar">
+          <span id="catalog-count-badge" class="count-pill">Cargando inventario...</span>
+        </div>
+
+        <div id="catalog-grid" class="movies-presentation-grid">
+          <!-- Tarjetas renderizadas dinámicamente -->
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- VISTA 2: BÚSQUEDA AVANZADA Y FILTROS      -->
+      <!-- ========================================== -->
+      <section id="view-filter" class="app-screen-panel">
+        <div class="view-header">
+          <div>
+            <h2>Búsqueda y Filtros de Inventario</h2>
+            <p class="view-subtitle">Consulte títulos cinematográficos filtrados por año de estreno y rango de precio de venta.</p>
+          </div>
+        </div>
+
+        <!-- Tarjeta de Controles de Filtro -->
+        <div class="filter-control-card">
+          <form id="form-filter-standalone" class="filter-controls-row">
+            <div class="filter-input-col">
+              <label for="filter-param-year">Año de Estreno mayor a (&gt;)</label>
+              <div class="input-with-unit">
+                <span class="unit-icon">📅</span>
+                <input type="number" id="filter-param-year" class="input-field" value="2015" placeholder="Ej: 2015" required />
+              </div>
+            </div>
+
+            <div class="filter-input-col">
+              <label for="filter-param-price">Precio Máximo de Venta (&le;)</label>
+              <div class="input-with-unit">
+                <span class="unit-icon">💲</span>
+                <input type="number" id="filter-param-price" class="input-field" value="30.00" step="0.50" placeholder="Ej: 30" required />
+              </div>
+            </div>
+
+            <div class="filter-btn-col">
+              <label>&nbsp;</label>
+              <button type="submit" class="btn btn-warning btn-block" id="btn-run-filter">
+                ⚡ Aplicar Filtros Comerciales
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Resumen de Resultados -->
+        <div class="filter-results-header">
+          <span id="filter-status-badge" class="filter-results-tag">Configure los parámetros y pulse "Aplicar Filtros Comerciales".</span>
+          <button type="button" id="btn-clear-filter" class="btn btn-outline btn-xs" style="display: none;">Restablecer Filtros</button>
+        </div>
+
+        <div id="filter-results-grid" class="movies-presentation-grid">
+          <!-- Tarjetas filtradas -->
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- VISTA 3: ALTA DE TÍTULOS / CREAR PELÍCULA -->
+      <!-- ========================================== -->
+      <section id="view-create" class="app-screen-panel">
+        <div class="view-header">
+          <div>
+            <h2>Gestión de Catálogo: Registro de Nuevos Títulos</h2>
+            <p class="view-subtitle">Módulo administrativo para dar de alta títulos cinematográficos en el inventario.</p>
+          </div>
+        </div>
+
+        <!-- Banner de Control de Permisos -->
+        <div id="role-authorization-banner" class="role-auth-banner">
+          <!-- Actualizado dinámicamente según rol del usuario -->
+        </div>
+
+        <div class="create-movie-container">
+          <form id="form-create-movie" class="create-movie-form">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="movie-title">Título de la Película</label>
+                <input type="text" id="movie-title" class="input-field" placeholder="Ej: Interstellar" required />
+              </div>
+
+              <div class="form-group">
+                <label for="movie-director">Director(a)</label>
+                <input type="text" id="movie-director" class="input-field" placeholder="Ej: Christopher Nolan" required />
+              </div>
+            </div>
+
+            <div class="form-row-3">
+              <div class="form-group">
+                <label for="movie-year">Año de Lanzamiento</label>
+                <input type="number" id="movie-year" class="input-field" placeholder="Ej: 2024" min="1888" max="2100" required />
+              </div>
+
+              <div class="form-group">
+                <label for="movie-studio">Casa Productora / Distribuidora</label>
+                <input type="text" id="movie-studio" class="input-field" placeholder="Ej: Paramount Pictures" required />
+              </div>
+
+              <div class="form-group">
+                <label for="movie-price">Precio de Venta ($ USD)</label>
+                <input type="number" id="movie-price" class="input-field" placeholder="Ej: 24.99" step="0.01" min="0" required />
+              </div>
+            </div>
+
+            <div class="form-actions-bar">
+              <button type="submit" class="btn btn-success btn-lg" id="btn-submit-create-movie">
+                ➕ Registrar Título en Inventario
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Pie Corporativo -->
+    <footer class="app-footer">
+      <div class="footer-content">
+        <p>© 2026 CinemaStore Enterprise Solutions. Todos los derechos reservados.</p>
+        <p class="footer-academic">Sistema Académico Unilasallista • Ingeniería Informática • Docente: Néstor Vélez Vargas</p>
+      </div>
+    </footer>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- MODAL DE DIAGNÓSTICOS TÉCNICOS / INSPECTOR API          -->
+  <!-- ======================================================== -->
+  <div id="modal-inspector" class="inspector-overlay">
+    <div class="inspector-window">
+      <div class="inspector-header">
+        <div class="inspector-title">
+          <span class="inspector-dot"></span>
+          <span>Consola de Diagnósticos y Respuestas HTTP</span>
+        </div>
+        <button type="button" id="btn-close-inspector" class="btn-close-modal">&times;</button>
+      </div>
+
+      <div class="inspector-body">
+        <div class="inspector-meta-bar">
+          <span id="insp-method" class="insp-method-tag">READY</span>
+          <span id="insp-url" class="insp-url-tag">Sistema en espera de peticiones...</span>
+          <span id="insp-status" class="insp-status-tag">200 OK</span>
+        </div>
+        <pre id="insp-json" class="insp-code-block">// Registro de transacciones con el servidor backend Node.js.</pre>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

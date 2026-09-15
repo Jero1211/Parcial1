@@ -1,0 +1,82 @@
+[
+  {
+    "id": "1",
+    "titulo": "Matrix",
+    "director": "Hermanas Wachowski",
+    "anioLanzamiento": 1999,
+    "productora": "Warner Bros",
+    "precio": 15,
+    "creadoPor": "admin",
+    "createdAt": "2026-09-15T15:07:04.978Z"
+  },
+  {
+    "id": "2",
+    "titulo": "Interstellar",
+    "director": "Christopher Nolan",
+    "anioLanzamiento": 2014,
+    "productora": "Paramount Pictures",
+    "precio": 25.5,
+    "creadoPor": "admin",
+    "createdAt": "2026-09-15T15:07:04.978Z"
+  },
+  {
+    "id": "3",
+    "titulo": "Spider-Man: Un Nuevo Universo",
+    "director": "Peter Ramsey",
+    "anioLanzamiento": 2018,
+    "productora": "Sony Pictures",
+    "precio": 20,
+    "creadoPor": "admin",
+    "createdAt": "2026-09-15T15:07:04.978Z"
+  },
+  {
+    "id": "4",
+    "titulo": "Avengers: Endgame",
+    "director": "Anthony y Joe Russo",
+    "anioLanzamiento": 2019,
+    "productora": "Marvel Studios",
+    "precio": 30,
+    "creadoPor": "admin",
+    "createdAt": "2026-09-15T15:07:04.978Z"
+  },
+  {
+    "id": "5",
+    "titulo": "Oppenheimer",
+    "director": "Christopher Nolan",
+    "anioLanzamiento": 2023,
+    "productora": "Universal Pictures",
+    "precio": 28,
+    "creadoPor": "admin",
+    "createdAt": "2026-09-15T15:07:04.978Z"
+  },
+  {
+    "id": "6",
+    "titulo": "Dune: Parte Dos",
+    "director": "Denis Villeneuve",
+    "anioLanzamiento": 2024,
+    "productora": "Warner Bros",
+    "precio": 35,
+    "creadoPor": "admin",
+    "createdAt": "2026-09-15T15:07:04.978Z"
+  },
+  {
+    "id": "1789484825855",
+    "titulo": "Gladiador Test 1789484825852",
+    "director": "Ridley Scott",
+    "anioLanzamiento": 2024,
+    "productora": "Paramount Pictures",
+    "precio": 24.5,
+    "creadoPor": "admin",
+    "createdAt": "2026-09-15T15:07:05.855Z"
+  },
+  {
+    "id": "1789486272344",
+    "titulo": "Gladiador Test 1789486272330",
+    "director": "Ridley Scott",
+    "anioLanzamiento": 2024,
+    "productora": "Paramount Pictures",
+    "precio": 24.5,
+    "creadoPor": "admin",
+    "createdAt": "2026-09-15T15:31:12.344Z"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "username": "admin",
+    "passwordHash": "$2a$10$Hj34J9Kp3oS32dXCN12.kOxX3zVdbwLKNMNCwFlawaW/4ShvGxdDW",
+    "rol": "Administrador",
+    "createdAt": "2026-09-15T15:07:04.898Z"
+  },
+  {
+    "id": "2",
+    "username": "juan",
+    "passwordHash": "$2a$10$dqarh3.2oWp8VVevFJ7Hwe4BcHcfSS9BRjvz.Z75As8sqYbnIjlr.",
+    "rol": "usuario básico",
+    "createdAt": "2026-09-15T15:07:04.976Z"
+  },
+  {
+    "id": "1789484825509",
+    "username": "estudiante_1789484824984",
+    "passwordHash": "$2a$10$CbXZvsptTLSYJRqL2trPYOcQiM7KP1F6FOBdm54h/MEjpEI4hNIEy",
+    "rol": "usuario básico",
+    "createdAt": "2026-09-15T15:07:05.509Z"
+  },
+  {
+    "id": "1789486272026",
+    "username": "estudiante_1789486271888",
+    "passwordHash": "$2a$10$tFj.qg9Ufg74A9/u0qfbo.SUEcVZKcdGdlT5ydG2N6jLwz9qYKs32",
+    "rol": "usuario básico",
+    "createdAt": "2026-09-15T15:31:12.026Z"
+  }
+]
